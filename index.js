@@ -21,19 +21,19 @@ var createMiddleware = (req, res, next) => {
     var deadline_date = req.body.deadline_date
 
 
-    if (title == null) {
+    if (title === null || title === undefined) {
         return returnError(res, 'title can\'t be null')
     }
 
-    if (desc == null) {
+    if (desc === null || desc === undefined) {
         return returnError(res, 'desc can\'t be null')
     }
 
-    if (created_date == null) {
+    if (created_date === null || created_date === undefined) {
         return returnError(res, 'created_date can\'t be null')
     }
 
-    if (deadline_date == null) {
+    if (deadline_date === null || deadline_date === undefined) {
         return returnError(res, 'deadline_date can\'t be null')
     }
 
@@ -88,7 +88,7 @@ var deleteMiddleware = (req, res, next) => {
 
 
 function getDatabase() {
-    return new sqlite3.Database(':todo:', (err) => {
+    return new sqlite3.Database('./todo.db', (err) => {
         if (err) {
             return console.error(err.message)
         }
@@ -153,8 +153,7 @@ app.post('/create_new_todo', createMiddleware, (req, res) => {
             return returnError(res, err.message)
         }
 
-        res.status(200)
-        res.send({
+        res.status(200).send({
             'status': true,
             'data': {
                 'title': title,
@@ -202,8 +201,7 @@ app.post('/update_todo', updateMiddleware, (req, res) => {
             return returnError(res, err.message)
         }
 
-        res.status(200)
-        res.send({
+        res.status(200).send({
             'status': true,
             'data': `success update todo with id ${id}`
         })
@@ -224,8 +222,7 @@ app.post('/delete_todo', deleteMiddleware, (req, res) => {
             return returnError(res, err.message)
         }
 
-        res.status(200)
-        res.send({
+        res.status(200).send({
             'status': true,
             'data': `success delete todo with id ${id}`
         })
